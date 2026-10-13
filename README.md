@@ -4,6 +4,8 @@ Un agente DQN decide cada día qué fracción del capital (0 %, 50 % o 100 %) ma
 
 Construido sobre el repositorio base del curso, [`emiliomunozai/rl_games_sb`](https://github.com/emiliomunozai/rl_games_sb) (Stable-Baselines3 + Gymnasium + MLflow + Optuna). Su README original está en `docs/README_base_profesor.md`.
 
+> **Equipo:** cómo nos organizamos, quién produce y verifica cada parte, fechas y reglas → **[README_ESTRUCTURA_TRABAJO.md](README_ESTRUCTURA_TRABAJO.md)**
+
 ## Inicio rápido
 
 ```powershell
@@ -65,13 +67,14 @@ agente-inversor/
 ├── results/                         # figuras y métricas que genera el notebook
 ├── saves/                           # modelos entrenados (.zip de SB3, no se versionan)
 ├── CONFIGURACION_KERNEL.md
+├── README_ESTRUCTURA_TRABAJO.md     # organización del equipo
 ├── pyproject.toml, uv.lock, .python-version
 └── CLAUDE.md
 ```
 
 ## Equipo
 
-Cada integrante produce una parte de la entrega y verifica la de otro compañero mediante Pull Requests: ver **[docs/guia_equipo/01_funciones_y_checklists.md](docs/guia_equipo/01_funciones_y_checklists.md)**.
+Cada integrante produce una parte de la entrega y verifica la de otro compañero mediante Pull Requests. Mapa general en **[README_ESTRUCTURA_TRABAJO.md](README_ESTRUCTURA_TRABAJO.md)**; checklists detallados en [docs/guia_equipo/01_funciones_y_checklists.md](docs/guia_equipo/01_funciones_y_checklists.md).
 
 ## Reglas del experimento
 
