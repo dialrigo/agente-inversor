@@ -1,6 +1,6 @@
 # Guía de ejecución paso a paso
 
-Tiempo total la primera vez: unos 20 minutos, la mayor parte en la descarga de dependencias. La instalación detallada está en `CONFIGURACION_KERNEL.md`, en la raíz del repositorio.
+Tiempo total la primera vez: unos 20 minutos, la mayor parte en la descarga de dependencias. La instalación detallada está en `CONFIGURACION_KERNEL.md`, en la raíz del repositorio. Ramas y Pull Requests: `03_flujo_github.md`.
 
 ## Paso 1 · Clonar e instalar
 
@@ -36,16 +36,16 @@ Entrena dos DQN diminutos (3.000 pasos), los evalúa en validación y corre 2 tr
 
 Orden del notebook y qué mirar en cada parte:
 
-| Sección | Qué produce | Revisa |
+| Sección | Qué produce | Dueño del texto |
 |---|---|---|
-| 2 · Datos | Tabla de periodos, precio, retornos, volatilidad, drawdown del activo, indicadores | Rol 1 |
-| 4 · Entorno | Pasos de ejemplo y 4 pruebas (deben decir `OK`) | Rol 2 |
-| 5 · Recompensa v1 | Curva de aprendizaje, métricas y posiciones en **validación** | Rol 3 |
-| 6 · Recompensa v2 | Lo mismo para v2 y la **selección** de la versión final | Rol 3 |
-| 7 · Algoritmo | Tabla de hiperparámetros; Optuna opcional | Rol 3 |
-| 8 · Held-out | Tabla final, curva de capital, drawdown y posiciones | Rol 4 |
-| 9 · Anomalía | Tramo de peor desempeño frente a comprar y mantener | Rol 4 |
-| 10–11 · Discusión | Texto y reflexiones individuales | Rol 6 |
+| 2 · Datos | Tabla de periodos, precio, retornos, volatilidad, drawdown del activo, indicadores | Andrés |
+| 4 · Entorno | Pasos de ejemplo y 4 pruebas (deben decir `OK`) | Nicolás |
+| 5 · Recompensa v1 | Curva de aprendizaje, métricas y posiciones en **validación** | janayajoo |
+| 6 · Recompensa v2 | Lo mismo para v2 y la **selección** de la versión final | janayajoo |
+| 7 · Algoritmo | Tabla de hiperparámetros; Optuna opcional | Marlon |
+| 8 · Held-out | Tabla final, curva de capital, drawdown y posiciones | Lorena |
+| 9 · Anomalía | Tramo de peor desempeño frente a comprar y mantener | Lorena |
+| 10–11 · Discusión | Texto y reflexiones individuales | Nataly |
 
 Las figuras quedan en `results/*.png` y la tabla final en `results/metricas_heldout.csv`, listas para el informe.
 
@@ -59,7 +59,7 @@ En http://127.0.0.1:5000 → experimento `agente-inversor` están las corridas d
 
 ## Si algo falla
 
-- **Las pruebas de la sección 4 fallan:** no sigas. Avisa a Nicolás (rol 2) y a Diego.
+- **Las pruebas de la sección 4 fallan:** no sigas. Avisa a Nicolás y a Diego.
 - **El notebook no encuentra `rl_games_sb`:** el kernel no es el `.venv`.
 - **Resultados distintos a los oficiales en decimales:** es normal entre máquinas; los oficiales son los de `results/`.
 - **Quiero probar otra idea:** hazlo en una rama propia, evalúa solo en validación y anótalo en `docs/pendientes.md`.

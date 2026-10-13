@@ -47,6 +47,7 @@ agente-inversor/
 ├── notebooks/
 │   └── Agente_Inversor.ipynb        # EDA → formulación → recompensas → held-out → discusión
 ├── scripts/prueba_humo.py           # verificación rápida del flujo completo
+├── tests/                           # pruebas del entorno y de las métricas (pytest)
 ├── src/rl_games_sb/
 │   ├── investor_data.py             # NUEVO · datos, indicadores, división temporal
 │   ├── investor_env.py              # NUEVO · entorno Gymnasium de inversión
@@ -55,7 +56,10 @@ agente-inversor/
 │   ├── config.py, experiments.py    # + eval_env (evaluar en validación) y semilla en Optuna
 │   └── cli.py, registry.py, tracking.py   # sin cambios (base del profesor)
 ├── docs/
-│   ├── guia_equipo/                 # roles, checklists y guía de ejecución del equipo
+│   ├── guia_equipo/                 # funciones, checklists, ejecución y flujo GitHub
+│   ├── informe/                     # una sección del informe por archivo, cada una con dueño
+│   ├── reflexiones/                 # una reflexión individual por integrante
+│   ├── experimentos/                # Optuna y robustez por semillas
 │   ├── decisiones.md                # bitácora de decisiones
 │   └── pendientes.md
 ├── results/                         # figuras y métricas que genera el notebook
@@ -64,6 +68,10 @@ agente-inversor/
 ├── pyproject.toml, uv.lock, .python-version
 └── CLAUDE.md
 ```
+
+## Equipo
+
+Cada integrante produce una parte de la entrega y verifica la de otro compañero mediante Pull Requests: ver **[docs/guia_equipo/01_funciones_y_checklists.md](docs/guia_equipo/01_funciones_y_checklists.md)**.
 
 ## Reglas del experimento
 
