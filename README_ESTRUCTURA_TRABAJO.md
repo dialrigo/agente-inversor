@@ -42,8 +42,9 @@ flowchart LR
     L -->|verifica| M[Marlon<br/>Algoritmo y reproducibilidad]
     M -->|verifica| T[Nataly<br/>Discusión e informe]
     T -->|verifica| A
-    D[Diego<br/>Integración] -.->|checklist final| A & N & J & L & M & T
 ```
+
+Diego cierra el ciclo con el **checklist final** sobre todas las partes antes de entregar.
 
 ## 4. Flujo de la entrega
 
