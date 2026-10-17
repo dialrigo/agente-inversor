@@ -1,18 +1,36 @@
 # Reflexión individual · Nicolás Gamboa
 
-Rama `reflexion/JnicolasGh` · verifica Nataly · 3 a 6 líneas por pregunta, en primera persona.
+Rama `reflexion/JnicolasGh` · verifica Nataly · en primera persona.
 
 ## 1. ¿Cuál fue el resultado que más me sorprendió?
 
+Lo que más me sorprendió fue el peso de los costos de transacción. Cuando escribí la prueba del costo, entrar al 100 % con 100.000 USD costaba apenas 100 USD, y en la prueba del desplazamiento el rebalanceo diario del 50 % salía en unos 0,25 USD; eran cifras que, vistas una por una, parecían un detalle del simulador. Sin embargo, en el held-out el agente elegido (v2) pagó 5.449 USD en 68 cambios de posición, es decir, más que los 3.464 USD que ganó; v1 pagó 10.540 USD y el agente aleatorio, en promedio, 19.102 USD. Ninguna operación aislada es cara: lo caro es operar muchas veces, y cada ida y vuelta completa al 100 % cuesta cerca de 200 USD. Por eso un 0,1 % que en el diseño del entorno parecía un supuesto menor terminó explicando buena parte de la diferencia entre las estrategias, y me hizo entender que en este problema el costo no es un ajuste fino, sino parte central de la recompensa.
 
 ## 2. ¿Qué decisión metodológica tuvo mayor impacto en el agente?
 
+Considero que la decisión de mayor impacto fue modelar el efectivo como un estado sin riesgo y sin rendimiento. En el entorno, estar al 0 % deja el valor del portafolio exactamente igual y entrega una recompensa de cero, tal como comprueba la prueba del efectivo estable, en la que el valor se mantiene en 100.000 USD durante 20 días aunque el precio se mueva. Al combinar ese supuesto con la penalización por aumento del drawdown de v2, cuyas fórmulas coinciden línea por línea con `InvestorEnv.step`, el efectivo se convierte en el único lugar donde el agente nunca recibe castigo. El resultado fue un agente que aprendió a refugiarse ahí: 79 % de los días en efectivo en validación y una exposición media de solo 18 % en el held-out, mientras el activo subía 56 %. Antes del proyecto pensaba que la conducta del agente dependía sobre todo de la recompensa; ahora entiendo que los supuestos del entorno, como que el efectivo no rinda ni arriesgue nada, definen qué conducta resulta "segura" tanto como la propia recompensa.
 
 ## 3. ¿Qué cambiaría si tuviera que repetir el experimento?
 
+Si repitiera el experimento, haría el simulador menos optimista y mediría cuánto depende el resultado de esos supuestos. En primer lugar, ejecutaría la orden en la apertura de t+1 y no al cierre de t: si el agente decide con el precio de cierre, en la práctica no puede operar a ese mismo precio, así que el supuesto actual le regala una ventaja pequeña pero sistemática. En segundo lugar, evaluaría las mismas políticas con costos de 0,05 %, 0,1 % y 0,2 %, y agregaría un diferencial de compra y venta; como el entorno ya recibe el costo como parámetro, es un cambio de pocas líneas que mostraría si la conclusión se sostiene ante otro nivel de fricción. Por último, agregaría una prueba que altere el precio de t+1 y verifique que la observación y la acción de t no cambian: mi prueba de lookahead garantiza que los indicadores no usan información futura, pero no comprueba directamente el orden interno de `step`, y esa es justamente la parte del entorno donde un error sería más grave y más difícil de notar.
 
 ## 4. ¿Qué comportamiento del agente no logré explicar completamente?
 
+No logré explicar por qué el agente casi nunca usa la posición del 50 %: la eligió en el 6 % de los días con v1 y apenas en el 2,8 % con v2. Descarté que fuera por costos, porque la prueba del desplazamiento muestra que mantener el 50 % cuesta fracciones de dólar al día y, en todo el periodo de entrenamiento, unos 580 USD; es mucho menos de lo que el agente pagó por entrar y salir del 100 %. Para v1 tengo una hipótesis: como su recompensa es lineal en la fracción invertida, el valor estimado de la acción del 50 % tiende a quedar en medio de los otros dos, y por eso rara vez es el máximo. En v2, en cambio, el logaritmo y la penalización por drawdown deberían favorecer una exposición intermedia, que reduce la caída sin renunciar a toda la subida; aun así, el agente la evita y prefiere los extremos. Sin inspeccionar los valores Q de la red en distintos estados no puedo afirmar si es una propiedad de la recompensa, del entrenamiento o simplemente de la poca experiencia que el agente acumuló en esa posición.
 
 ## 5. ¿Cuál fue la principal diferencia entre lo aprendido en RL y su aplicación a un problema real?
 
+La principal diferencia fue que en el curso el entorno venía dado y aquí tuvimos que construirlo. En LunarLander o en Breakout nadie se pregunta si el simulador es correcto: las reglas son las del juego y el agente solo tiene que aprenderlas. En este proyecto, en cambio, cada regla fue una decisión nuestra (a qué precio se ejecuta la orden, cuándo se cobra el costo, qué pasa con el efectivo, cuánto dura un episodio) y cada una cambia lo que el agente aprende. Un error de una sola línea, como leer el precio de t+1 antes de fijar la acción, habría producido un agente brillante en el papel e inútil en la práctica, y la recompensa no lo habría delatado; al contrario, habría subido. Por eso entendí que las pruebas automáticas no son un trámite del proyecto: son la única evidencia de que el agente aprendió del problema que planteamos y no de un defecto del simulador. Un resultado negativo con un entorno verificado, como el nuestro, vale más que uno positivo con un entorno en el que no se puede confiar.
+
+---
+
+## Qué hice en el proyecto y dónde verlo
+
+Mi función fue **entorno y pruebas automáticas** (rúbrica 2). Ninguna prueba usa el periodo held-out.
+
+| Qué hice | Dónde se ve |
+|---|---|
+| 7 pruebas automáticas del entorno (11 casos): lookahead de indicadores, costo de entrar al 100 %, efectivo estable, paso calculado a mano, held-out no registrado, observación y acciones, desplazamiento del 50 % | `tests/test_investor_env.py` |
+| pytest en el CI de GitHub, en cada push y Pull Request | `.github/workflows/ci.yml` |
+| Comprobación de la cifra de rebalanceo del 50 % de la formulación (579,37 USD en entrenamiento) | `docs/informe/04_entorno.md` |
+| Sección del informe sobre el entorno: interfaz Gymnasium, cronología de un paso, fórmulas, episodios, pruebas y supuestos | `docs/informe/04_entorno.md` |
