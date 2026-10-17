@@ -1,0 +1,15 @@
+semilla 42: {'retorno_acumulado_%': np.float64(-6.46), 'max_drawdown_%': np.float64(14.59), 'costos_$': np.float64(4614.01), 'cambios_de_posicion': 59, 'exposicion_media_%': np.float64(27.89), 'sharpe_anual': -0.48, 'valor_final_$': np.float64(93537.49), 'minutos': 2.98}
+semilla 1: {'retorno_acumulado_%': np.float64(-13.03), 'max_drawdown_%': np.float64(20.54), 'costos_$': np.float64(6158.06), 'cambios_de_posicion': 82, 'exposicion_media_%': np.float64(44.02), 'sharpe_anual': -0.95, 'valor_final_$': np.float64(86966.05), 'minutos': 1.73}
+semilla 7: {'retorno_acumulado_%': np.float64(-4.9), 'max_drawdown_%': np.float64(13.92), 'costos_$': np.float64(5395.53), 'cambios_de_posicion': 72, 'exposicion_media_%': np.float64(30.28), 'sharpe_anual': -0.4, 'valor_final_$': np.float64(95098.1), 'minutos': 1.65}
+semilla 123: {'retorno_acumulado_%': np.float64(-5.42), 'max_drawdown_%': np.float64(9.29), 'costos_$': np.float64(4573.27), 'cambios_de_posicion': 60, 'exposicion_media_%': np.float64(25.5), 'sharpe_anual': -0.44, 'valor_final_$': np.float64(94576.47), 'minutos': 2.17}
+
+                           retorno_acumulado_%  max_drawdown_%  costos_$  cambios_de_posicion  exposicion_media_%  sharpe_anual  valor_final_$  minutos
+semilla 42                               -6.46           14.59   4614.01                59.00               27.89         -0.48       93537.49     2.98
+semilla 1                               -13.03           20.54   6158.06                82.00               44.02         -0.95       86966.05     1.73
+semilla 7                                -4.90           13.92   5395.53                72.00               30.28         -0.40       95098.10     1.65
+semilla 123                              -5.42            9.29   4573.27                60.00               25.50         -0.44       94576.47     2.17
+media                                    -7.46           14.59   5185.22                68.25               31.92         -0.57       92544.53     2.13
+desv. estándar                            3.78            4.62    750.87                10.90                8.30          0.26        3775.13     0.61
+Comprar y mantener (ref.)                 4.24           13.53    100.00                 1.00              100.00          0.31      104242.28      NaN
+
+Guardado en docs\experimentos\semillas_investor_dqn_log_dd_optuna.csv
