@@ -1,0 +1,61 @@
+2026/10/17 17:26:40 INFO mlflow.store.db.utils: Creating initial MLflow database tables...
+ 
+2026/10/17 17:26:40 INFO mlflow.store.db.utils: Updating database tables
+2026/10/17 17:26:42 INFO mlflow.tracking.fluent: Experiment with name 'agente-inversor' does not exist. Creating a new 
+experiment.
+[I 2026-10-17 17:26:42,718] A new study created in memory with name: no-name-30afad9a-100b-4646-95e7-27b113b5fdd4
+[I 2026-10-17 17:27:14,273] Trial 0 finished with value: -1.731396 and parameters: {'learning_rate': 
+0.00011155792840695785, 'gamma': 0.9, 'exploration_fraction': 0.1624074561769746, 'batch_size': 128}. Best is trial 0 
+with value: -1.731396.
+[I 2026-10-17 17:27:39,509] Trial 1 finished with value: -7.464776 and parameters: {'learning_rate': 
+0.0002469144630692838, 'gamma': 0.99, 'exploration_fraction': 0.4329770563201687, 'batch_size': 32}. Best is trial 0 
+with value: -1.731396.
+[I 2026-10-17 17:28:06,062] Trial 2 finished with value: -8.897738 and parameters: {'learning_rate': 
+8.718570826250073e-05, 'gamma': 0.9, 'exploration_fraction': 0.34474115788895177, 'batch_size': 128}. Best is trial 0 
+with value: -1.731396.
+[I 2026-10-17 17:28:32,319] Trial 3 finished with value: 0.46758 and parameters: {'learning_rate': 
+0.00014847746361371377, 'gamma': 0.9, 'exploration_fraction': 0.33696582754481696, 'batch_size': 64}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:28:58,675] Trial 4 finished with value: -10.757417 and parameters: {'learning_rate': 
+3.768659868747708e-05, 'gamma': 0.95, 'exploration_fraction': 0.2218455076693483, 'batch_size': 64}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:29:24,966] Trial 5 finished with value: -19.051934 and parameters: {'learning_rate': 
+4.602255110771663e-05, 'gamma': 0.99, 'exploration_fraction': 0.20351199264000677, 'batch_size': 32}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:29:51,274] Trial 6 finished with value: -7.240918 and parameters: {'learning_rate': 
+0.00020403032387415098, 'gamma': 0.95, 'exploration_fraction': 0.4757995766256756, 'batch_size': 128}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:30:17,521] Trial 7 finished with value: -6.484362 and parameters: {'learning_rate': 
+4.0915193103158576e-05, 'gamma': 0.99, 'exploration_fraction': 0.25547091587579285, 'batch_size': 64}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:31:07,601] Trial 8 finished with value: -3.540434 and parameters: {'learning_rate': 
+8.034344475619409e-05, 'gamma': 0.99, 'exploration_fraction': 0.12982025747190834, 'batch_size': 32}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:31:58,398] Trial 9 finished with value: -26.554336 and parameters: {'learning_rate': 
+3.058656942932557e-05, 'gamma': 0.9, 'exploration_fraction': 0.4085081386743783, 'batch_size': 64}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:32:39,564] Trial 10 finished with value: -9.366034 and parameters: {'learning_rate': 
+0.00018536806400193197, 'gamma': 0.9, 'exploration_fraction': 0.30884609576930316, 'batch_size': 64}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:33:13,632] Trial 11 finished with value: -21.411051 and parameters: {'learning_rate': 
+0.00020063905199109558, 'gamma': 0.9, 'exploration_fraction': 0.10725193759328597, 'batch_size': 64}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:33:41,134] Trial 12 finished with value: -15.950227 and parameters: {'learning_rate': 
+0.0005870344668336022, 'gamma': 0.9, 'exploration_fraction': 0.11095515558962268, 'batch_size': 128}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:34:08,134] Trial 13 finished with value: -22.055386 and parameters: {'learning_rate': 
+0.00030202100934313, 'gamma': 0.95, 'exploration_fraction': 0.2010457168895134, 'batch_size': 128}. Best is trial 3 
+with value: 0.46758.
+[I 2026-10-17 17:34:37,455] Trial 14 finished with value: -18.180231 and parameters: {'learning_rate': 
+7.156417742896733e-05, 'gamma': 0.9, 'exploration_fraction': 0.1883629003793732, 'batch_size': 128}. Best is trial 3 
+with value: 0.46758.
+Device: cpu
+
+Best mean reward: 0.47 (trial 3)
+Best hyperparameters, to paste under 'hyperparams:' in the config:
+
+learning_rate: 0.00014847746361371377
+gamma: 0.9
+exploration_fraction: 0.33696582754481696
+batch_size: 64
+
