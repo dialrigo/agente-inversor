@@ -4,8 +4,6 @@
 |---|---|---|---|
 | Lorena Valero (`LorenaValero20`) | janayajoo | Secc. 8 · `results/09`–`10` · `metricas_heldout.csv` | **4** |
 
-> **Estado:** las secciones 01 a 03 describen el protocolo y no dependen de los resultados. Las secciones 04 a 07 se completan con la **corrida oficial** (`results/metricas_heldout.csv` y figuras 09–10). Las líneas marcadas con ⏳ se reemplazan por las cifras oficiales.
-
 ## 01. Protocolo de evaluación
 
 La evaluación final usa el periodo **held-out**, del 3 de enero de 2017 al 29 de agosto de 2018 (418 días de negociación). Ninguna etapa anterior lo usó. La separación temporal se respetó en todo el proyecto:
@@ -54,33 +52,69 @@ El cálculo de las métricas se verificó con pruebas automáticas (`tests/test_
 - **Baseline comprar y mantener:** su valor final es exactamente 100.000 × (1 − 0,001) × P_final / P_inicial, es decir, el retorno del activo menos el costo de entrada. La prueba usa el periodo de validación para no abrir el held-out.
 - **Agente aleatorio:** con la misma semilla produce exactamente la misma trayectoria, así que es reproducible.
 
-## 04. Resultados en el held-out
+## 04. Versión evaluada (elegida en validación)
 
-⏳ Copiar la tabla de `results/metricas_heldout.csv` con dos decimales:
+Antes de abrir el held-out, la celda de selección del notebook comparó las dos versiones en **validación (2016)** con el criterio retorno acumulado / máximo drawdown:
 
-| Estrategia | Retorno acumulado | Máximo drawdown | Costos | Cambios de posición | Exposición media | Sharpe |
+| Estrategia (validación 2016) | Retorno | Máx. drawdown | Costos (USD) | Cambios de posición | Exposición media | Sharpe | Retorno / drawdown |
+|---|---|---|---|---|---|---|---|
+| RL v1 (simple) | −10,33 % | 15,88 % | 5.208 | 67 | 57,2 % | −0,64 | −0,65 |
+| **RL v2 (log + drawdown)** | **+8,99 %** | **8,61 %** | 3.097 | 32 | 19,3 % | **1,02** | **1,04** |
+| Comprar y mantener | +4,24 % | 13,53 % | 100 | 1 | 100 % | 0,31 | 0,31 |
+| Aleatorio (media 20 semillas) | −9,17 % | 13,80 % | 10.753 | 168 | 51,6 % | −0,67 | −0,66 |
+
+La versión elegida para el held-out fue **RL v2 (log + drawdown)**. En validación superó a comprar y mantener en retorno (+8,99 % frente a +4,24 %) y redujo el drawdown a casi la mitad (8,6 % frente a 13,5 %), con el agente en efectivo el 79,7 % de los días. Esta decisión quedó fija antes de ver el held-out.
+
+## 05. Resultados en el held-out (2017 – 2018)
+
+*Fuente: `results/metricas_heldout.csv`.*
+
+| Estrategia | Retorno acumulado | Máximo drawdown | Costos (USD) | Cambios de posición | Exposición media | Sharpe |
 |---|---|---|---|---|---|---|
-| RL v1 (simple) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| RL v2 (log + drawdown) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
-| Comprar y mantener | ⏳ | ⏳ | ⏳ | 1 | 100 % | ⏳ |
-| Aleatorio (media 20 semillas) | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ |
+| **RL v2 (log + drawdown)** · elegida | **+3,46 %** | **13,87 %** | 5.449 | 68 | 18,0 % | 0,26 |
+| RL v1 (simple) · referencia | +31,99 % | 16,57 % | 10.540 | 94 | 61,4 % | 1,21 |
+| Comprar y mantener | +56,36 % | 15,36 % | 100 | 1 | 100 % | 1,45 |
+| Aleatorio (media 20 semillas) | +4,95 % | 14,72 % | 19.102 | 278 | 51,1 % | 0,27 |
+| Aleatorio (semilla 42, la de la curva) | +31,51 % | 8,09 % | 22.124 | 278 | 49,4 % | 1,32 |
 
-Versión elegida en validación: ⏳
+Lectura de la tabla:
 
-## 05. Curva de capital y de drawdown
+- **Retorno.** El agente elegido ganó +3,46 %, frente a +56,36 % de comprar y mantener: quedó **52,9 puntos** por debajo. Incluso quedó por debajo del aleatorio promedio (+4,95 %).
+- **Riesgo.** Su máximo drawdown (13,87 %) es apenas 1,5 puntos menor que el de comprar y mantener (15,36 %), pese a estar invertido solo el 18 % del tiempo. Reducir la exposición a una quinta parte no redujo el riesgo en la misma proporción. La sección 08 analiza por qué.
+- **Costos.** Pagó 5.449 USD en costos, el 5,4 % del capital inicial y más que todo su retorno. Antes de costos su resultado habría sido cercano a +9 %, todavía muy lejos del baseline.
+- **Sharpe.** 0,26, prácticamente igual al del aleatorio promedio (0,27). En términos de retorno por unidad de riesgo, el agente no se distingue del azar en este periodo.
+- **El aleatorio con una sola semilla engaña.** La semilla 42 obtuvo +31,5 % y el menor drawdown de la tabla (8,1 %), pero el promedio de 20 semillas es +4,95 %. Por eso la comparación se hace contra el promedio, no contra una sola trayectoria.
+- **Comprobación del baseline.** El activo subió 56,51 % en el periodo; comprar y mantener rindió 56,36 %, que es exactamente el retorno del activo después del costo de entrada del 0,1 %: 1,5651 × 0,999 − 1 = 0,5636.
+
+## 06. Curva de capital y de drawdown
 
 *Figura 09 · `results/09_curva_capital_heldout.png`.*
 
-⏳ Describir: (a) en qué tramos el agente se separa de comprar y mantener, hacia arriba o hacia abajo; (b) si sus caídas son más cortas o menos profundas que las del activo; (c) dónde queda el aleatorio y por qué los costos explican buena parte de su resultado.
+- **2017 (enero a diciembre).** GOOGL subió de forma casi continua y comprar y mantener llegó a ~132.000 USD. El agente v2 se quedó plano alrededor de 100.000 USD: estuvo en efectivo casi todo el año y solo entró en pocos días aislados.
+- **Enero de 2018.** El activo tuvo su tramo más fuerte (comprar y mantener superó los 146.000 USD) y el agente siguió fuera del mercado.
+- **Febrero a mayo de 2018.** El mercado se volvió turbulento y el agente empezó a entrar y salir. Ahí se concentró **todo su drawdown**: su valor cayó de ~106.000 a ~92.000 USD entre marzo y finales de abril.
+- **Junio a agosto de 2018.** Recuperó parte de la pérdida y cerró en 103.464 USD.
 
-## 06. Posiciones del agente en el tiempo
+La curva de drawdown muestra la diferencia de fondo. El drawdown de comprar y mantener se reparte en varios episodios cortos que se recuperan rápido. El del agente es casi nulo durante 14 meses y luego aparece de golpe en el periodo más volátil.
+
+## 07. Posiciones del agente en el tiempo
 
 *Figura 10 · `results/10_posiciones_heldout.png`.*
 
-⏳ Describir: (a) qué acción usa más el agente; (b) si sale del mercado antes de las caídas reales o en momentos sin relación con el precio; (c) si cambia de posición con frecuencia, lo que encarece la estrategia.
+- **Acción dominante: efectivo.** El agente estuvo al 0 % la mayor parte del periodo, con una exposición media del 18 %. Es el mismo patrón que en validación (19,3 %), así que el comportamiento es estable entre periodos. Lo que cambió fue el mercado.
+- **Entradas cortas y aisladas.** En 2017 solo tomó posiciones de 50 % o 100 % durante pocos días y salió rápido, sin acompañar la tendencia alcista del año.
+- **Rotación concentrada en la turbulencia.** Entre marzo y mayo de 2018 cambió de posición decenas de veces. En todo el held-out hubo 21 idas y vueltas (A → B → A en tres días), la mayoría en ese periodo. Esas operaciones explican buena parte de los 5.449 USD en costos.
+- **Comparación con v1.** La versión v1, no elegida, estuvo invertida el 61 % del tiempo, ganó +32 % y siguió mejor la tendencia, a cambio de un drawdown mayor (16,6 %) y del doble de costos.
 
-## 07. Respuesta a la pregunta central
+## 08. Respuesta a la pregunta central
 
 *¿Puede un agente de RL aprender una estrategia de inversión que se comporte mejor que comprar y mantener o que un agente aleatorio, en un periodo que nunca vio?*
 
-⏳ Responder en tres frases, con las cifras de la tabla: (1) frente a comprar y mantener en retorno; (2) frente a comprar y mantener en riesgo (drawdown); (3) frente al aleatorio. Si el agente no supera a comprar y mantener, decirlo de forma explícita y conectar con la discusión: en el held-out el activo subió con fuerza y, en un mercado así, cualquier salida del mercado tiene un costo de oportunidad alto.
+**En este experimento, no.** El agente elegido (v2) obtuvo +3,46 % frente a +56,36 % de comprar y mantener. Redujo el máximo drawdown en solo 1,5 puntos (13,87 % frente a 15,36 %) y no superó al aleatorio promedio ni en retorno (+4,95 %) ni en Sharpe (0,26 frente a 0,27). Su único resultado mejor que el azar es el costo de operar, que fue menor.
+
+Hay un hallazgo adicional que debe quedar explícito: la versión **descartada en validación (v1) habría sido mucho mejor en el held-out** (+32 %). No la usamos ni reajustamos nada al verlo, porque elegir la versión con el periodo de prueba invalidaría la evaluación. Que el orden de las versiones se invierta entre 2016 y 2017–2018 es una muestra directa de **no-estacionariedad**:
+
+- En 2016 el activo apenas subió (+4,3 %) y tuvo caídas al inicio del año, de modo que quedarse fuera del mercado fue rentable.
+- En 2017–2018 hubo un mercado alcista fuerte (+56 %), donde quedarse fuera tiene un costo de oportunidad enorme.
+
+Un solo año de validación no basta para elegir con confianza entre estrategias que dependen tanto del régimen de mercado (ver la discusión en la sección 09).
