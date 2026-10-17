@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📈 Agente Inversor
+# git branch --show-current
 
 ### ¿Puede una inteligencia artificial que aprende por ensayo y error invertir mejor que la estrategia más simple del mercado?
 
@@ -20,7 +20,7 @@ Un agente de **Deep Reinforcement Learning** decide cada día cuánto capital ma
 
 ---
 
-## 🎯 En 30 segundos
+## Resumen general del proyecto
 
 | | |
 |---|---|
@@ -29,26 +29,26 @@ Un agente de **Deep Reinforcement Learning** decide cada día cuánto capital ma
 | **El rigor** | Entrena con 2009 a 2015, elige su recompensa con 2016 y se evalúa **una única vez** en 2017 y 2018, sin reajustar nada |
 | **La respuesta** | **No superó a comprar y mantener.** Y entender por qué es el verdadero hallazgo del proyecto |
 
-> *"Un resultado negativo no implica necesariamente un mal proyecto. La rigurosidad de la formulación, la evaluación y el análisis es más importante que obtener un retorno elevado."* (Enunciado del proyecto)
+> *"Un resultado negativo no implica necesariamente un mal proyecto. La rigurosidad de la formulación, la evaluación y el análisis es más importante que obtener un retorno elevado."*
 
 ---
 
-## 🏆 Resultados en datos nunca vistos
+## Resultados en datos nunca vistos
 
 **Periodo de prueba: 3 de enero de 2017 a 29 de agosto de 2018 (418 días).** Todas las estrategias parten de 100.000 USD y pagan el mismo costo de 0,1 %.
 
 | Estrategia | Retorno acumulado | Máxima caída | Costos | Cambios de posición | Exposición media | Sharpe |
 |---|---:|---:|---:|---:|---:|---:|
-| 🤖 **Agente RL v2** (elegido en validación) | **+3,46 %** | 13,87 % | 5.449 USD | 68 | 18 % | 0,26 |
-| 🤖 Agente RL v1 (descartado en validación) | +31,99 % | 16,57 % | 10.540 USD | 94 | 61 % | 1,21 |
-| 📊 Comprar y mantener | **+56,36 %** | 15,36 % | 100 USD | 1 | 100 % | 1,45 |
-| 🎲 Aleatorio (media de 20 semillas) | +4,95 % | 14,72 % | 19.102 USD | 278 | 51 % | 0,27 |
+| **Agente RL v2** (elegido en validación) | **+3,46 %** | 13,87 % | 5.449 USD | 68 | 18 % | 0,26 |
+| Agente RL v1 (descartado en validación) | +31,99 % | 16,57 % | 10.540 USD | 94 | 61 % | 1,21 |
+| Comprar y mantener | **+56,36 %** | 15,36 % | 100 USD | 1 | 100 % | 1,45 |
+| Aleatorio (media de 20 semillas) | +4,95 % | 14,72 % | 19.102 USD | 278 | 51 % | 0,27 |
 
 <p align="center">
   <img src="results/09_curva_capital_heldout.png" alt="Curva de capital en el periodo de prueba" width="90%">
 </p>
 
-### 💡 Tres hallazgos que explican el resultado
+### Tres hallazgos que explican el resultado
 
 1. **La recompensa moldeó un inversionista demasiado prudente.** Penalizar el aumento de la caída desde el máximo enseñó al agente que el efectivo nunca castiga. Por eso pasó cerca del 80 % de los días en efectivo durante la validación, mantuvo una exposición media de apenas 18 % en la prueba y se perdió el rally de 2017. Es un caso claro de *reward hacking*.
 2. **El mercado cambió de régimen.** En 2016 quedarse fuera fue rentable; en 2017 y 2018 GOOGL subió 56 %. La versión descartada (v1) habría rendido +32 % en la prueba. No se cambió la elección al verlo, porque hacerlo habría invalidado la evaluación.
@@ -58,7 +58,7 @@ El análisis completo está en [`docs/informe/07_evaluacion.md`](docs/informe/07
 
 ---
 
-## ⚙️ Cómo funciona
+## Cómo funciona
 
 ```mermaid
 flowchart LR
@@ -94,7 +94,7 @@ gantt
 | **Algoritmo** | DQN de Stable-Baselines3, red MLP 64 × 64, 150.000 pasos, episodios de un año con inicio aleatorio |
 | **Selección** | Mayor cociente entre retorno y máxima caída en validación, fijado antes de abrir la prueba |
 
-### 🛡️ Protocolo contra la fuga de información
+### Protocolo contra la fuga de información
 
 - El periodo de prueba **no está registrado** como entorno de Gymnasium; solo `investor_eval.run(..., "test")` puede abrirlo.
 - Los indicadores usan ventanas que terminan en t, y una **prueba automática** verifica que no cambian al borrar el futuro.
@@ -103,7 +103,7 @@ gantt
 
 ---
 
-## 🚀 Reproducir el experimento
+## Reproducir el experimento
 
 ### 1. Instalar (una vez, unos 5 minutos)
 
@@ -156,7 +156,7 @@ uv run mlflow ui                                                      # http://1
 
 La evaluación en el periodo de prueba se ejecuta **solo** desde la sección 8 del notebook, una única vez, para proteger la validez del resultado.
 
-### 🎲 Semillas y reproducibilidad
+### Semillas y reproducibilidad
 
 | Elemento | Semilla o mecanismo |
 |---|---|
@@ -171,7 +171,7 @@ Con la misma semilla, computadores distintos pueden producir cifras diferentes p
 
 ---
 
-## 📋 Dónde está cada criterio de la rúbrica
+## Dónde está cada criterio de la rúbrica
 
 | Criterio | Evidencia en el repositorio |
 |---|---|
@@ -183,7 +183,7 @@ Con la misma semilla, computadores distintos pueden producir cifras diferentes p
 
 ---
 
-## 🗂️ Estructura
+## Estructura
 
 ```
 agente-inversor/
@@ -210,7 +210,7 @@ agente-inversor/
 
 ---
 
-## 👥 Equipo
+## Equipo
 
 Cada integrante produjo una parte de la entrega y verificó la de otro compañero mediante Pull Requests revisados, con el CI en verde.
 
