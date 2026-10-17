@@ -1,6 +1,6 @@
 ## Qué entrega este PR
 
-<!-- Función (ver docs/guia_equipo/01_funciones_y_checklists.md) y archivos que cambian -->
+<!-- Función de quien abre el PR y archivos que cambian -->
 
 - Función:
 - Archivos:
