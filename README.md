@@ -209,8 +209,7 @@ agente-inversor/
 │   ├── informe/              # una sección del informe por archivo
 │   ├── reflexiones/          # reflexión individual de cada integrante
 │   ├── experimentos/         # Optuna y robustez por semillas
-│   ├── decisiones.md         # bitácora de decisiones
-│   └── guia_equipo/          # organización y flujo de trabajo
+│   └── decisiones.md         # bitácora de decisiones
 ├── scripts/
 │   ├── prueba_humo.py        # verificación rápida del flujo completo
 │   ├── semillas.py           # robustez de la versión final con varias semillas
@@ -233,8 +232,6 @@ Cada integrante produjo una parte de la entrega y verificó la de otro compañer
 | Lorena Valero ([@LorenaValero20](https://github.com/LorenaValero20)) | Evaluación, baselines y anomalía |
 | Marlon Umbarila ([@Marlon-Umbarila](https://github.com/Marlon-Umbarila)) | Algoritmo, Optuna y reproducibilidad |
 | Nataly Valbuena ([@natavalbuenal](https://github.com/natavalbuenal)) | Discusión, referencias e informe final |
-
-Organización detallada en [`README_ESTRUCTURA_TRABAJO.md`](README_ESTRUCTURA_TRABAJO.md).
 
 ---
 
