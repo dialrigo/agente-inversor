@@ -48,11 +48,12 @@ Un agente de **Deep Reinforcement Learning** decide cada día cuánto capital ma
   <img src="results/09_curva_capital_heldout.png" alt="Curva de capital en el periodo de prueba" width="90%">
 </p>
 
-### Tres hallazgos que explican el resultado
+### Cuatro hallazgos que explican el resultado
 
 1. **La recompensa moldeó un inversionista demasiado prudente.** Penalizar el aumento de la caída desde el máximo enseñó al agente que el efectivo nunca castiga. Por eso pasó cerca del 80 % de los días en efectivo durante la validación, mantuvo una exposición media de apenas 18 % en la prueba y se perdió el rally de 2017. Es un caso claro de *reward hacking*.
 2. **El mercado cambió de régimen.** En 2016 quedarse fuera fue rentable; en 2017 y 2018 GOOGL subió 56 %. La versión descartada (v1) habría rendido +32 % en la prueba. No se cambió la elección al verlo, porque hacerlo habría invalidado la evaluación.
 3. **Operar cuesta.** El agente pagó en costos más de lo que ganó, y concentró sus idas y vueltas en la turbulencia de 2018.
+4. **La ventaja en validación no era estable.** Al reentrenar v2 con cuatro semillas, su retorno en 2016 promedió +1,4 % ± 5,4 %, frente al +9,0 % de la corrida oficial; la elección dependía en buena parte de la semilla. Detalle en [`docs/experimentos/optuna_y_semillas.md`](docs/experimentos/optuna_y_semillas.md).
 
 El análisis completo está en [`docs/informe/07_evaluacion.md`](docs/informe/07_evaluacion.md) y [`docs/informe/08_anomalia.md`](docs/informe/08_anomalia.md).
 
@@ -121,7 +122,7 @@ powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | ie
 git clone https://github.com/dialrigo/agente-inversor.git
 cd agente-inversor
 uv sync --frozen                            # crea .venv sin modificar uv.lock
-uv run python scripts/prueba_humo.py        # cerca de 1 minuto; debe terminar en "TODO OK"
+uv run python scripts/prueba_humo.py        # menos de un minuto; debe terminar en "TODO OK"
 uv run pytest                               # pruebas del entorno y de las métricas
 ```
 
@@ -149,8 +150,12 @@ uv run python -c "from rl_games_sb import registry, investor_eval as ev; m = reg
 # Baselines en validación: comprar y mantener, y aleatorio (media de 20 semillas)
 uv run python -c "from rl_games_sb import investor_eval as ev; print(ev.metrics(ev.run(ev.buy_and_hold, 'val'))); print(ev.random_summary('val'))"
 
-# Búsqueda de hiperparámetros (opcional) y panel de experimentos
+# Búsqueda de hiperparámetros y robustez por semillas (opcionales, solo validación)
 uv run rlgames-sb tune --config configs/investor_dqn_log_dd.yaml
+uv run python scripts/exportar_optuna.py                              # tabla y figura de los trials
+uv run python scripts/semillas.py --config configs/investor_dqn_log_dd.yaml   # semillas 42, 1, 7 y 123
+
+# Panel de experimentos
 uv run mlflow ui                                                      # http://127.0.0.1:5000
 ```
 
@@ -164,10 +169,12 @@ La evaluación en el periodo de prueba se ejecuta **solo** desde la sección 8 d
 | DQN | `seed: 42` en cada archivo de `configs/` |
 | Inicio de los episodios de entrenamiento | Generador de Gymnasium, sembrado por el agente |
 | Optuna | Muestreador TPE con la semilla del archivo de configuración |
+| Episodios de evaluación | `reset(seed=0)`; en validación y prueba el episodio es el periodo completo, sin azar |
 | Agente aleatorio | Semilla 42 en la curva; semillas 0 a 19 en el promedio |
+| Robustez | `scripts/semillas.py` con las semillas 42, 1, 7 y 123 |
 | Dependencias | Versiones exactas fijadas en `uv.lock` |
 
-Con la misma semilla, computadores distintos pueden producir cifras diferentes por diferencias numéricas entre equipos y versiones de librerías; el orden entre las versiones del agente se mantuvo en las corridas realizadas. Las cifras oficiales del informe son las de `results/`.
+Con la misma semilla, computadores distintos pueden producir cifras diferentes por diferencias numéricas entre equipos y versiones de librerías; el orden entre las versiones del agente se mantuvo en las corridas realizadas. Las cifras oficiales del informe son las de `results/`. El detalle de versiones y pruebas entre máquinas está en [`docs/informe/10_reproducibilidad.md`](docs/informe/10_reproducibilidad.md).
 
 ---
 
@@ -204,7 +211,10 @@ agente-inversor/
 │   ├── experimentos/         # Optuna y robustez por semillas
 │   ├── decisiones.md         # bitácora de decisiones
 │   └── guia_equipo/          # organización y flujo de trabajo
-├── scripts/prueba_humo.py    # verificación rápida del flujo completo
+├── scripts/
+│   ├── prueba_humo.py        # verificación rápida del flujo completo
+│   ├── semillas.py           # robustez de la versión final con varias semillas
+│   └── exportar_optuna.py    # tabla y figura de los trials de Optuna
 └── pyproject.toml, uv.lock
 ```
 
