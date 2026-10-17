@@ -29,11 +29,11 @@ v1 premia el retorno porcentual diario del portafolio. Se eligió como punto de 
 
 Configuración: DQN, red MLP 64×64, 150.000 pasos, semilla 42, entrenado en 2009–2015 con episodios de 252 días de inicio aleatorio y evaluado en 2016 (validación) con un episodio determinista.
 
-En validación, v1 obtuvo **−7,72 %** de retorno (comprar y mantener: +4,24 %), con 70 cambios de posición (cerca del 28 % de los días), 5.578 USD en costos, exposición media de 58 % y máximo drawdown de 14,5 %. Pasó 54,8 % del tiempo al 100 % invertido, 39,3 % en efectivo y 6,0 % al 50 %.
+En validación (corrida oficial del notebook), v1 obtuvo **−10,33 %** de retorno (comprar y mantener: +4,24 %), con 67 cambios de posición (cerca del 27 % de los días), 5.208 USD en costos, exposición media de 57,2 % y máximo drawdown de 15,9 %. Pasó 54,2 % del tiempo al 100 % invertido, 39,8 % en efectivo y 6,0 % al 50 %.
 
 ## Problemas identificados
 
-El agente de v1 **sobreopera**: cambia de posición casi un día de cada tres y paga costos que se comen el resultado (más de 5 % del capital inicial). v1 no penaliza el riesgo más allá del costo de operar, y el agente termina persiguiendo movimientos de corto plazo aprendidos en 2009–2015 que no se sostienen en 2016. Su drawdown (14,5 %) es similar al del mercado (13,5 %), pero sin compensación en retorno.
+El agente de v1 **sobreopera**: cambia de posición más de un día de cada cuatro y paga costos que se comen el resultado (más de 5 % del capital inicial). v1 no penaliza el riesgo más allá del costo de operar, y el agente termina persiguiendo movimientos de corto plazo aprendidos en 2009–2015 que no se sostienen en 2016. Su drawdown (15,9 %) es incluso mayor que el del mercado (13,5 %), sin compensación en retorno.
 
 ## v2: log con penalización de drawdown, justificación
 
@@ -48,7 +48,7 @@ Con v1 → v2 cambian dos cosas a la vez (log y penalización), así que no se s
 
 ## Tabla comparativa de las 3 variantes en validación
 
-Un episodio determinista en 2016, semilla 42, 150.000 pasos, mismos hiperparámetros en las tres.
+Corrida exploratoria, previa a la corrida oficial: un episodio determinista en 2016, semilla 42, 150.000 pasos, mismos hiperparámetros en las tres. Es la única corrida que compara las tres variantes entre sí, por eso se usa para aislar el efecto del log; v3 no forma parte del notebook oficial. Las cifras de v1 y v2 que sustentan la selección son las de la corrida oficial (ver "Versión elegida y criterio").
 
 | Estrategia | Retorno | Máx. drawdown | Costos (USD) | Cambios de posición | Exposición media | Sharpe anual | Retorno / drawdown |
 |---|---|---|---|---|---|---|---|
@@ -80,10 +80,20 @@ Las explicaciones siguientes son hipótesis consistentes con los datos, no prueb
 
 ## Versión elegida y criterio (antes de abrir el held-out)
 
-El criterio de selección se fijó antes de abrir el held-out (ver `docs/decisiones.md`, 2026-10-12): el mayor **ratio retorno / máximo drawdown en validación (2016)**. Con ese criterio, v2 obtiene 1,35 (8,48 % / 6,27 %), frente a −0,53 de v1, −0,42 de v3 y 0,31 de comprar y mantener, así que se elige **v2**. Como apoyo, es además la única variante que supera a comprar y mantener en retorno (+8,5 % frente a +4,2 %), tiene el mejor Sharpe (0,98) y menos de la mitad de los costos de v1 y v3. Con retornos negativos el ratio pierde sentido (v3 queda por encima de v1 solo porque pierde menos por cada punto de drawdown), pero ninguna de las dos compite con v2.
+El criterio de selección se fijó antes de abrir el held-out (ver `docs/decisiones.md`, 2026-10-12): el mayor **ratio retorno / máximo drawdown en validación (2016)**. La selección se hizo en la corrida oficial del notebook (sección 6), con estas cifras en validación:
+
+| Estrategia (corrida oficial, validación 2016) | Retorno | Máx. drawdown | Costos (USD) | Cambios de posición | Exposición media | Sharpe anual | Retorno / drawdown |
+|---|---|---|---|---|---|---|---|
+| v1 · simple | −10,33 % | 15,88 % | 5.208 | 67 | 57,2 % | −0,64 | −0,65 |
+| v2 · log − drawdown | **+8,99 %** | **8,61 %** | 3.097 | 32 | 19,3 % | **1,02** | **1,04** |
+| Comprar y mantener | +4,24 % | 13,53 % | 100 | 1 | 100 % | 0,31 | 0,31 |
+| Aleatorio (media 20 semillas) | −9,17 % | 13,80 % | 10.753 | 168 | 51,6 % | −0,67 | −0,66 |
+
+Con ese criterio, v2 obtiene 1,04 (8,99 % / 8,61 %), frente a −0,65 de v1 y 0,31 de comprar y mantener, así que se elige **v2**. La corrida exploratoria da el mismo orden (1,35 para v2, −0,53 para v1 y −0,42 para v3). Como apoyo, v2 es además la única variante que supera a comprar y mantener en retorno (+9,0 % frente a +4,2 %), tiene el mejor Sharpe (1,02) y paga cerca del 60 % de los costos de v1 (3.097 frente a 5.208 USD). Con retornos negativos el ratio pierde sentido (en la corrida exploratoria v3 queda por encima de v1 solo porque pierde menos por cada punto de drawdown), pero ninguna de las dos compite con v2.
 
 **Salvedades.**
 
 1. Es un solo año, un solo episodio y una semilla. La robustez entre semillas se reporta en `docs/experimentos/optuna_y_semillas.md`.
 2. La elección se hizo mirando 2016, así que el resultado de v2 en validación está algo inflado por selección. El held-out (2017–2018) existe para medir eso.
 3. v2 supera al mercado con 19 % de exposición media; puede ser acierto de oportunidad en 2016 y no una ventaja general.
+4. Con la misma semilla y los mismos hiperparámetros, la corrida exploratoria y la oficial dan cifras distintas (por ejemplo, v2: +8,48 % frente a +8,99 %), probablemente por diferencias numéricas entre computadores y versiones de librerías. El orden de las variantes se mantiene en ambas, así que la elección de v2 no depende de cuál se use.
