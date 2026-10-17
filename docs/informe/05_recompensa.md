@@ -50,12 +50,12 @@ Con v1 → v2 cambian dos cosas a la vez (log y penalización), así que no se s
 
 Un episodio determinista en 2016, semilla 42, 150.000 pasos, mismos hiperparámetros en las tres.
 
-| Estrategia | Retorno | Máx. drawdown | Costos (USD) | Cambios de posición | Exposición media | Sharpe anual |
-|---|---|---|---|---|---|---|
-| v1 · simple | −7,72 % | 14,50 % | 5.578 | 70 | 58,0 % | −0,46 |
-| v2 · log − drawdown | **+8,48 %** | **6,27 %** | 2.915 | 32 | 19,3 % | **0,98** |
-| v3 · log | −6,69 % | 16,08 % | 5.926 | 71 | 54,6 % | −0,39 |
-| Comprar y mantener | +4,24 % | 13,53 % | 100 | 1 | 100 % | 0,31 |
+| Estrategia | Retorno | Máx. drawdown | Costos (USD) | Cambios de posición | Exposición media | Sharpe anual | Retorno / drawdown |
+|---|---|---|---|---|---|---|---|
+| v1 · simple | −7,72 % | 14,50 % | 5.578 | 70 | 58,0 % | −0,46 | −0,53 |
+| v2 · log − drawdown | **+8,48 %** | **6,27 %** | 2.915 | 32 | 19,3 % | **0,98** | **1,35** |
+| v3 · log | −6,69 % | 16,08 % | 5.926 | 71 | 54,6 % | −0,39 | −0,42 |
+| Comprar y mantener | +4,24 % | 13,53 % | 100 | 1 | 100 % | 0,31 | 0,31 |
 
 Tiempo en cada posición (0 % / 50 % / 100 % invertido):
 
@@ -80,7 +80,7 @@ Las explicaciones siguientes son hipótesis consistentes con los datos, no prueb
 
 ## Versión elegida y criterio (antes de abrir el held-out)
 
-Se elige **v2**, con una decisión tomada solo con datos de validación (2016): es la única variante que supera a comprar y mantener en retorno (+8,5 % frente a +4,2 %), tiene el menor drawdown (6,3 %) y el mejor Sharpe (0,98), con menos de la mitad de los costos de v1 y v3.
+El criterio de selección se fijó antes de abrir el held-out (ver `docs/decisiones.md`, 2026-10-12): el mayor **ratio retorno / máximo drawdown en validación (2016)**. Con ese criterio, v2 obtiene 1,35 (8,48 % / 6,27 %), frente a −0,53 de v1, −0,42 de v3 y 0,31 de comprar y mantener, así que se elige **v2**. Como apoyo, es además la única variante que supera a comprar y mantener en retorno (+8,5 % frente a +4,2 %), tiene el mejor Sharpe (0,98) y menos de la mitad de los costos de v1 y v3. Con retornos negativos el ratio pierde sentido (v3 queda por encima de v1 solo porque pierde menos por cada punto de drawdown), pero ninguna de las dos compite con v2.
 
 **Salvedades.**
 
