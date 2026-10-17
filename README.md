@@ -1,6 +1,6 @@
 <div align="center">
 
-# git branch --show-current
+# Agente Inversor
 
 ### ¿Puede una inteligencia artificial que aprende por ensayo y error invertir mejor que la estrategia más simple del mercado?
 
