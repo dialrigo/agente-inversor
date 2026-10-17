@@ -1,9 +1,5 @@
 # Diseño del entorno de simulación
 
-| Dueño | Verifica | Fuente | Rúbrica |
-|---|---|---|---|
-| Nicolás Gamboa (`JnicolasGh`) | Andrés Díaz | Secc. 4 · `investor_env.py` · `tests/test_investor_env.py` | **2** |
-
 ## Interfaz Gymnasium (reset / step) y por qué permite usar Stable-Baselines3
 
 El simulador se implementó como la clase `InvestorEnv` (`src/rl_games_sb/investor_env.py`), que hereda de `gymnasium.Env` y respeta su contrato. Este contrato tiene cuatro piezas:
