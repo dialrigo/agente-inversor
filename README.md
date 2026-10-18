@@ -225,15 +225,15 @@ agente-inversor/
 
 Cada integrante produjo una parte de la entrega y verificó la de otro compañero mediante Pull Requests revisados, con el CI en verde.
 
-| Integrante | Rol |
-|---|---|
-| Diego Ríos ([@dialrigo](https://github.com/dialrigo)) | Integración, corrida oficial y entrega |
-| Andrés Díaz ([@andresdila](https://github.com/andresdila)) | Datos, análisis exploratorio y formulación |
-| Nicolás Gamboa ([@JnicolasGh](https://github.com/JnicolasGh)) | Entorno y pruebas automáticas |
-| Jorge Anaya ([@janayajoo](https://github.com/janayajoo)) | Diseño e iteración de la recompensa |
-| Lorena Valero ([@LorenaValero20](https://github.com/LorenaValero20)) | Evaluación, baselines y anomalía |
-| Marlon Umbarila ([@Marlon-Umbarila](https://github.com/Marlon-Umbarila)) | Algoritmo, Optuna y reproducibilidad |
-| Nataly Valbuena ([@natavalbuenal](https://github.com/natavalbuenal)) | Discusión, referencias e informe final |
+| Integrante |
+|---|
+| Diego Ríos ([@dialrigo](https://github.com/dialrigo)) | 
+| Andrés Díaz ([@andresdila](https://github.com/andresdila)) | 
+| Nicolás Gamboa ([@JnicolasGh](https://github.com/JnicolasGh)) | 
+| Jorge Anaya ([@janayajoo](https://github.com/janayajoo)) | 
+| Lorena Valero ([@LorenaValero20](https://github.com/LorenaValero20)) | 
+| Marlon Umbarila ([@Marlon-Umbarila](https://github.com/Marlon-Umbarila)) |
+| Nataly Valbuena ([@natavalbuenal](https://github.com/natavalbuenal)) |
 
 ---
 
