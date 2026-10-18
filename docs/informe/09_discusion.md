@@ -1,9 +1,5 @@
 # Discusión y limitaciones
 
-| Dueño | Verifica | Fuente | Rúbrica |
-|---|---|---|---|
-| Nataly Valbuena (`natavalbuenal`) | Marlon Umbarila | Secc. 10 | **5** |
-
 ## Reward hacking observado
 
 
