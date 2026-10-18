@@ -1,7 +1,5 @@
 # Reflexión individual · Lorena Valero
 
-Rama `reflexion/LorenaValero20` · verifica Nataly · 3 a 6 líneas por pregunta, en primera persona.
-
 ## 1. ¿Cuál fue el resultado que más me sorprendió?
 
 Ver la tabla del held-out por primera vez. El agente que elegimos en validación, la v2, ganó apenas +3,46 %, frente a +56,36 % de comprar y mantener, y ni siquiera superó al agente aleatorio promedio (+4,95 %). Pero lo que más me impactó fue la fila de abajo: la v1, que habíamos descartado, ganó +32 %. Tuve la tentación de pensar "elijamos la v1". Justo ahí entendí que, si lo hacía, toda la evaluación perdía valor.
