@@ -1,7 +1,5 @@
 # Reflexión individual · Marlon Umbarila
 
-Rama `reflexion/Marlon-Umbarila` · verifica Nataly · 3 a 6 líneas por pregunta, en primera persona.
-
 ## 1. ¿Cuál fue el resultado que más me sorprendió?
 
 Que el "mejor" trial de Optuna fuera el peor candidato. En la búsqueda fue el único con recompensa positiva en validación, pero al reentrenarlo con 150.000 pasos y 4 semillas perdió con todas (−7,5 % en promedio) y operó casi el doble que la configuración original. También me sorprendió que la recompensa que cada trial alcanza en entrenamiento no tuviera ninguna relación con la de validación (Spearman −0,01): los trials que más aprendieron en 2009–2015 estuvieron entre los peores en 2016. Aprender bien el pasado no garantizó decidir bien después.
