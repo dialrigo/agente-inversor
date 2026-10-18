@@ -44,6 +44,8 @@ Un agente de **Deep Reinforcement Learning** decide cada día cuánto capital ma
 | Comprar y mantener | **+56,36 %** | 15,36 % | 100 USD | 1 | 100 % | 1,45 |
 | Aleatorio (media de 20 semillas) | +4,95 % | 14,72 % | 19.102 USD | 278 | 51 % | 0,27 |
 
+v3 (retorno logarítmico sin penalización) fue un control de la iteración de la recompensa en validación y no participó en la corrida oficial; por protocolo, el periodo de prueba se abrió una sola vez y solo con las versiones definidas de antemano.
+
 <p align="center">
   <img src="results/09_curva_capital_heldout.png" alt="Curva de capital en el periodo de prueba" width="90%">
 </p>
