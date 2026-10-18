@@ -13,7 +13,7 @@ Usamos **DQN** (*Deep Q-Network*, implementación de Stable-Baselines3) porque e
 | Exploración ε-greedy | Con probabilidad ε el agente elige una fracción al azar; ε baja linealmente de 1,0 a 0,05 durante el primer 30 % del entrenamiento. |
 | Política de evaluación | Greedy y determinista (`deterministic=True`): en validación y held-out no hay exploración, por eso basta un episodio. |
 
-**¿Por qué no PPO?** PPO también sirve para acciones discretas y el repositorio lo soporta (`algo: ppo`), pero DQN es la recomendación del enunciado, aprovecha mejor una serie histórica corta gracias al *replay buffer* (cada transición se reutiliza muchas veces) y su política greedy es más fácil de interpretar. PPO queda en `docs/pendientes.md`.
+**¿Por qué no PPO?** PPO también sirve para acciones discretas y el repositorio lo soporta (`algo: ppo`), pero DQN es la recomendación del enunciado, aprovecha mejor una serie histórica corta gracias al *replay buffer* (cada transición se reutiliza muchas veces) y su política greedy es más fácil de interpretar. PPO queda como trabajo futuro, junto con las demás extensiones que se discuten en la sección de limitaciones.
 
 ## Arquitectura de la red
 
