@@ -1,9 +1,5 @@
 # Discusión y limitaciones
 
-
-
-El resultado principal es negativo: el agente elegido no superó a comprar y mantener ni al aleatorio promedio en el held-out. En esta sección explicamos por qué.
-
 ## Reward hacking observado
 
 Un agente de RL optimiza la recompensa que le damos, no la intención que tuvimos al diseñarla. Cuando las dos se separan, el agente encuentra atajos que cumplen la recompensa pero no su propósito. En el proyecto observamos un atajo distinto en cada versión.

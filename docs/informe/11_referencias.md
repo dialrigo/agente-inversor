@@ -1,8 +1,6 @@
 # Referencias (APA 7)
 
-López de Prado, M. (2018). *Advances in financial machine learning*. Wiley.
-
-Moody, J., & Saffell, M. (2001). Learning to trade via direct reinforcement. *IEEE Transactions on Neural Networks, 12*(4), 875–889. https://doi.org/10.1109/72.935097
+Mnih, V., Kavukcuoglu, K., Silver, D., Rusu, A. A., Veness, J., Bellemare, M. G., Graves, A., Riedmiller, M., Fidjeland, A. K., Ostrovski, G., Petersen, S., Beattie, C., Sadik, A., Antonoglou, I., King, H., Kumaran, D., Wierstra, D., Legg, S., & Hassabis, D. (2015). Human-level control through deep reinforcement learning. *Nature, 518*(7540), 529–533. https://doi.org/10.1038/nature14236
 
 Powell, W. B. (2019). *Reinforcement learning and stochastic optimization*. Wiley.
 

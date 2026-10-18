@@ -1,9 +1,5 @@
 # Comportamiento inesperado del agente
 
-| Dueño | Verifica | Fuente | Rúbrica |
-|---|---|---|---|
-| Lorena Valero (`LorenaValero20`) | janayajoo | Secc. 9 · `results/11` | 4 |
-
 ## 01. Cómo se identificó el comportamiento inesperado
 
 En lugar de elegir a mano un episodio "interesante", lo que podría sesgar el análisis, el tramo se buscó de forma sistemática. Para cada día del held-out se calculó la diferencia entre el retorno logarítmico de 30 días hábiles del agente elegido (v2) y el de comprar y mantener. El tramo analizado es el de **mayor desventaja** del agente. Como diagnóstico adicional se contaron las **idas y vueltas** en todo el held-out: secuencias A → B → A en tres días consecutivos, en las que el agente cambia de decisión y vuelve atrás pagando dos veces el costo de operar.

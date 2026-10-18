@@ -1,9 +1,5 @@
 # Diseño e iteración de la recompensa
 
-| Dueño | Verifica | Fuente | Rúbrica |
-|---|---|---|---|
-| janayajoo | Nicolás Gamboa | Secc. 5–6 · `results/05`–`08` | **3** |
-
 ## v1: retorno simple, justificación
 
 En cada paso *t* el agente elige una fracción objetivo a ∈ {0; 0,5; 1} del capital invertido en GOOGL. Con V el valor del portafolio, w la fracción invertida actual y c = 0,1 % el costo por monto negociado, el entorno calcula:

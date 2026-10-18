@@ -1,7 +1,5 @@
 # Reflexión individual · Nataly Valbuena
 
-Rama `reflexion/natavalbuenal` · verifica Nataly · 3 a 6 líneas por pregunta, en primera persona.
-
 ## 1. ¿Cuál fue el resultado que más me sorprendió?
 
 

@@ -44,15 +44,18 @@ Un agente de **Deep Reinforcement Learning** decide cada día cuánto capital ma
 | Comprar y mantener | **+56,36 %** | 15,36 % | 100 USD | 1 | 100 % | 1,45 |
 | Aleatorio (media de 20 semillas) | +4,95 % | 14,72 % | 19.102 USD | 278 | 51 % | 0,27 |
 
+v3 (retorno logarítmico sin penalización) fue un control de la iteración de la recompensa en validación y no participó en la corrida oficial; por protocolo, el periodo de prueba se abrió una sola vez y solo con las versiones definidas de antemano.
+
 <p align="center">
   <img src="results/09_curva_capital_heldout.png" alt="Curva de capital en el periodo de prueba" width="90%">
 </p>
 
-### Tres hallazgos que explican el resultado
+### Cuatro hallazgos que explican el resultado
 
 1. **La recompensa moldeó un inversionista demasiado prudente.** Penalizar el aumento de la caída desde el máximo enseñó al agente que el efectivo nunca castiga. Por eso pasó cerca del 80 % de los días en efectivo durante la validación, mantuvo una exposición media de apenas 18 % en la prueba y se perdió el rally de 2017. Es un caso claro de *reward hacking*.
 2. **El mercado cambió de régimen.** En 2016 quedarse fuera fue rentable; en 2017 y 2018 GOOGL subió 56 %. La versión descartada (v1) habría rendido +32 % en la prueba. No se cambió la elección al verlo, porque hacerlo habría invalidado la evaluación.
 3. **Operar cuesta.** El agente pagó en costos más de lo que ganó, y concentró sus idas y vueltas en la turbulencia de 2018.
+4. **La ventaja en validación no era estable.** Al reentrenar v2 con cuatro semillas, su retorno en 2016 promedió +1,4 % ± 5,4 %, frente al +9,0 % de la corrida oficial; la elección dependía en buena parte de la semilla. Detalle en [`docs/experimentos/optuna_y_semillas.md`](docs/experimentos/optuna_y_semillas.md).
 
 El análisis completo está en [`docs/informe/07_evaluacion.md`](docs/informe/07_evaluacion.md) y [`docs/informe/08_anomalia.md`](docs/informe/08_anomalia.md).
 
@@ -70,6 +73,19 @@ flowchart LR
     F --> G[Precio de t+1<br/>nuevo valor del portafolio]
     G --> H[Recompensa R_t+1]
     H --> D
+```
+
+```mermaid
+gantt
+    title División temporal estricta
+    dateFormat YYYY-MM-DD
+    axisFormat %Y
+    section Datos
+    Entrenamiento, el agente aprende             :done, 2009-08-03, 2015-12-31
+    Validación, se elige la recompensa           :active, 2016-01-04, 2016-12-30
+    Prueba, evaluación única                     :crit, 2017-01-03, 2018-08-29
+```
+
 ```
 
 ```mermaid
@@ -109,6 +125,22 @@ gantt
 
 Requiere [uv](https://docs.astral.sh/uv/), que instala Python 3.11 y todas las dependencias con las versiones exactas de `uv.lock`.
 
+
+### Protocolo contra la fuga de información
+
+- El periodo de prueba **no está registrado** como entorno de Gymnasium; solo `investor_eval.run(..., "test")` puede abrirlo.
+- Los indicadores usan ventanas que terminan en t, y una **prueba automática** verifica que no cambian al borrar el futuro.
+- La normalización y el análisis exploratorio usan **solo entrenamiento y validación**.
+- Recompensa, hiperparámetros y arquitectura se fijaron **antes** de abrir la prueba, y todo queda registrado en la [bitácora de decisiones](docs/decisiones.md).
+
+---
+
+## Reproducir el experimento
+
+### 1. Instalar (una vez, unos 5 minutos)
+
+Requiere [uv](https://docs.astral.sh/uv/), que instala Python 3.11 y todas las dependencias con las versiones exactas de `uv.lock`.
+
 ```bash
 # macOS o Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -116,6 +148,46 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```powershell
 # Windows (PowerShell)
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+```bash
+git clone https://github.com/dialrigo/agente-inversor.git
+cd agente-inversor
+uv sync --frozen                            # crea .venv sin modificar uv.lock
+uv run python scripts/prueba_humo.py        # menos de un minuto; debe terminar en "TODO OK"
+uv run pytest                               # pruebas del entorno y de las métricas
+```
+
+### 2. Correr el experimento completo
+
+Abre `notebooks/Agente_Inversor.ipynb` en VS Code, elige el kernel `.venv (Python 3.11)` y ejecuta **Run All**. Con `RETRAIN = True` entrena v1 y v2 desde cero (de 5 a 10 minutos en CPU) y regenera todas las figuras de `results/` y la tabla `results/metricas_heldout.csv`.
+
+| Variable (celda 1) | Efecto |
+|---|---|
+| `RETRAIN = True` | Entrena desde cero; con `False` reutiliza los modelos de `saves/` |
+| `RUN_TUNE = True` | Búsqueda de hiperparámetros con Optuna, calificada solo en validación |
+| `RUN_SEEDS = True` | Reentrena la versión final con otras semillas para medir robustez |
+
+### 3. Paso a paso por línea de comandos
+
+```bash
+# Entrenar (2009 a 2015) y evaluar en validación (2016)
+uv run rlgames-sb train --config configs/investor_dqn_simple.yaml    # v1 · retorno simple
+uv run rlgames-sb train --config configs/investor_dqn_log_dd.yaml    # v2 · log con penalización
+uv run rlgames-sb train --config configs/investor_dqn_log.yaml       # v3 · control
+
+# Evaluar el agente entrenado en validación
+uv run python -c "from rl_games_sb import registry, investor_eval as ev; m = registry.load('dqn', 'Investor-log_dd-v0', device='cpu'); print(ev.metrics(ev.run(ev.agent_policy(m), 'val')))"
+
+# Baselines en validación: comprar y mantener, y aleatorio (media de 20 semillas)
+uv run python -c "from rl_games_sb import investor_eval as ev; print(ev.metrics(ev.run(ev.buy_and_hold, 'val'))); print(ev.random_summary('val'))"
+
+# Búsqueda de hiperparámetros y robustez por semillas (opcionales, solo validación)
+uv run rlgames-sb tune --config configs/investor_dqn_log_dd.yaml
+uv run python scripts/exportar_optuna.py                              # tabla y figura de los trials
+uv run python scripts/semillas.py --config configs/investor_dqn_log_dd.yaml   # semillas 42, 1, 7 y 123
+
+# Panel de experimentos
+uv run mlflow ui                                                      # http://127.0.0.1:5000
 ```
 ```bash
 git clone https://github.com/dialrigo/agente-inversor.git
@@ -158,6 +230,10 @@ La evaluación en el periodo de prueba se ejecuta **solo** desde la sección 8 d
 
 ### Semillas y reproducibilidad
 
+La evaluación en el periodo de prueba se ejecuta **solo** desde la sección 8 del notebook, una única vez, para proteger la validez del resultado.
+
+### Semillas y reproducibilidad
+
 | Elemento | Semilla o mecanismo |
 |---|---|
 | Python, NumPy y PyTorch | `SEED = 42` en la primera celda del notebook |
@@ -168,6 +244,12 @@ La evaluación en el periodo de prueba se ejecuta **solo** desde la sección 8 d
 | Dependencias | Versiones exactas fijadas en `uv.lock` |
 
 Con la misma semilla, computadores distintos pueden producir cifras diferentes por diferencias numéricas entre equipos y versiones de librerías; el orden entre las versiones del agente se mantuvo en las corridas realizadas. Las cifras oficiales del informe son las de `results/`.
+| Episodios de evaluación | `reset(seed=0)`; en validación y prueba el episodio es el periodo completo, sin azar |
+| Agente aleatorio | Semilla 42 en la curva; semillas 0 a 19 en el promedio |
+| Robustez | `scripts/semillas.py` con las semillas 42, 1, 7 y 123 |
+| Dependencias | Versiones exactas fijadas en `uv.lock` |
+
+Con la misma semilla, computadores distintos pueden producir cifras diferentes por diferencias numéricas entre equipos y versiones de librerías; el orden entre las versiones del agente se mantuvo en las corridas realizadas. Las cifras oficiales del informe son las de `results/`. El detalle de versiones y pruebas entre máquinas está en [`docs/informe/10_reproducibilidad.md`](docs/informe/10_reproducibilidad.md).
 
 ---
 
@@ -202,9 +284,11 @@ agente-inversor/
 │   ├── informe/              # una sección del informe por archivo
 │   ├── reflexiones/          # reflexión individual de cada integrante
 │   ├── experimentos/         # Optuna y robustez por semillas
-│   ├── decisiones.md         # bitácora de decisiones
-│   └── guia_equipo/          # organización y flujo de trabajo
-├── scripts/prueba_humo.py    # verificación rápida del flujo completo
+│   └── decisiones.md         # bitácora de decisiones
+├── scripts/
+│   ├── prueba_humo.py        # verificación rápida del flujo completo
+│   ├── semillas.py           # robustez de la versión final con varias semillas
+│   └── exportar_optuna.py    # tabla y figura de los trials de Optuna
 └── pyproject.toml, uv.lock
 ```
 
@@ -214,17 +298,15 @@ agente-inversor/
 
 Cada integrante produjo una parte de la entrega y verificó la de otro compañero mediante Pull Requests revisados, con el CI en verde.
 
-| Integrante | Rol |
-|---|---|
-| Diego Ríos ([@dialrigo](https://github.com/dialrigo)) | Integración, corrida oficial y entrega |
-| Andrés Díaz ([@andresdila](https://github.com/andresdila)) | Datos, análisis exploratorio y formulación |
-| Nicolás Gamboa ([@JnicolasGh](https://github.com/JnicolasGh)) | Entorno y pruebas automáticas |
-| Jorge Anaya ([@janayajoo](https://github.com/janayajoo)) | Diseño e iteración de la recompensa |
-| Lorena Valero ([@LorenaValero20](https://github.com/LorenaValero20)) | Evaluación, baselines y anomalía |
-| Marlon Umbarila ([@Marlon-Umbarila](https://github.com/Marlon-Umbarila)) | Algoritmo, Optuna y reproducibilidad |
-| Nataly Valbuena ([@natavalbuenal](https://github.com/natavalbuenal)) | Discusión, referencias e informe final |
-
-Organización detallada en [`README_ESTRUCTURA_TRABAJO.md`](README_ESTRUCTURA_TRABAJO.md).
+| Integrante |
+|---|
+| Diego Ríos ([@dialrigo](https://github.com/dialrigo)) | 
+| Andrés Díaz ([@andresdila](https://github.com/andresdila)) | 
+| Nicolás Gamboa ([@JnicolasGh](https://github.com/JnicolasGh)) | 
+| Jorge Anaya ([@janayajoo](https://github.com/janayajoo)) | 
+| Lorena Valero ([@LorenaValero20](https://github.com/LorenaValero20)) | 
+| Marlon Umbarila ([@Marlon-Umbarila](https://github.com/Marlon-Umbarila)) |
+| Nataly Valbuena ([@natavalbuenal](https://github.com/natavalbuenal)) |
 
 ---
 

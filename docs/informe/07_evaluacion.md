@@ -1,9 +1,5 @@
 # Evaluación en datos no vistos frente a baselines
 
-| Dueño | Verifica | Fuente | Rúbrica |
-|---|---|---|---|
-| Lorena Valero (`LorenaValero20`) | janayajoo | Secc. 8 · `results/09`–`10` · `metricas_heldout.csv` | **4** |
-
 ## 01. Protocolo de evaluación
 
 La evaluación final usa el periodo **held-out**, del 3 de enero de 2017 al 29 de agosto de 2018 (418 días de negociación). Ninguna etapa anterior lo usó. La separación temporal se respetó en todo el proyecto:
