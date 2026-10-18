@@ -1,7 +1,5 @@
 # Reflexión individual · Diego Ríos
 
-Rama `reflexion/dialrigo` · verifica Nataly · 3 a 6 líneas por pregunta, en primera persona.
-
 ## 1. ¿Cuál fue el resultado que más me sorprendió?
 
 Que la versión que descartamos en validación fuera la que mejor le fue en el held-out. La v1 ganó +32 % en 2017–2018 y la v2, la elegida, apenas +3,5 %. En 2016 había pasado exactamente lo contrario. Me costó aceptar que no podíamos "corregir" la elección después de ver ese número. Justo ahí entendí para qué existe el held-out: si lo hubiéramos usado para escoger, el +32 % no habría significado nada.
