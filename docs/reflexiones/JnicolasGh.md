@@ -20,15 +20,3 @@ No logré explicar por qué el agente casi nunca usa la posición del 50 %: la e
 
 La principal diferencia fue que en el curso el entorno venía dado y aquí tuvimos que construirlo. En LunarLander o en Breakout nadie se pregunta si el simulador es correcto: las reglas son las del juego y el agente solo tiene que aprenderlas. En este proyecto, en cambio, cada regla fue una decisión nuestra (a qué precio se ejecuta la orden, cuándo se cobra el costo, qué pasa con el efectivo, cuánto dura un episodio) y cada una cambia lo que el agente aprende. Un error de una sola línea, como leer el precio de t+1 antes de fijar la acción, habría producido un agente brillante en el papel e inútil en la práctica, y la recompensa no lo habría delatado; al contrario, habría subido. Por eso entendí que las pruebas automáticas no son un trámite del proyecto: son la única evidencia de que el agente aprendió del problema que planteamos y no de un defecto del simulador. Un resultado negativo con un entorno verificado, como el nuestro, vale más que uno positivo con un entorno en el que no se puede confiar.
 
----
-
-## Qué hice en el proyecto y dónde verlo
-
-Mi función fue **entorno y pruebas automáticas** (rúbrica 2). Ninguna prueba usa el periodo held-out.
-
-| Qué hice | Dónde se ve |
-|---|---|
-| 7 pruebas automáticas del entorno (11 casos): lookahead de indicadores, costo de entrar al 100 %, efectivo estable, paso calculado a mano, held-out no registrado, observación y acciones, desplazamiento del 50 % | `tests/test_investor_env.py` |
-| pytest en el CI de GitHub, en cada push y Pull Request | `.github/workflows/ci.yml` |
-| Comprobación de la cifra de rebalanceo del 50 % de la formulación (579,37 USD en entrenamiento) | `docs/informe/04_entorno.md` |
-| Sección del informe sobre el entorno: interfaz Gymnasium, cronología de un paso, fórmulas, episodios, pruebas y supuestos | `docs/informe/04_entorno.md` |
