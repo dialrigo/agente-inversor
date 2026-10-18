@@ -1,7 +1,5 @@
 # Reflexión individual · Nicolás Gamboa
 
-Rama `reflexion/JnicolasGh` · verifica Nataly · en primera persona.
-
 ## 1. ¿Cuál fue el resultado que más me sorprendió?
 
 Lo que más me sorprendió fue el peso de los costos de transacción. Cuando escribí la prueba del costo, entrar al 100 % con 100.000 USD costaba apenas 100 USD, y en la prueba del desplazamiento el rebalanceo diario del 50 % salía en unos 0,25 USD; eran cifras que, vistas una por una, parecían un detalle del simulador. Sin embargo, en el held-out el agente elegido (v2) pagó 5.449 USD en 68 cambios de posición, es decir, más que los 3.464 USD que ganó; v1 pagó 10.540 USD y el agente aleatorio, en promedio, 19.102 USD. Ninguna operación aislada es cara: lo caro es operar muchas veces, y cada ida y vuelta completa al 100 % cuesta cerca de 200 USD. Por eso un 0,1 % que en el diseño del entorno parecía un supuesto menor terminó explicando buena parte de la diferencia entre las estrategias, y me hizo entender que en este problema el costo no es un ajuste fino, sino parte central de la recompensa.
