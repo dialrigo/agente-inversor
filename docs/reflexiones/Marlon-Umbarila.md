@@ -19,23 +19,3 @@ Por qué, con la misma semilla y el mismo código, la v2 obtiene en validación 
 ## 5. ¿Cuál fue la principal diferencia entre lo aprendido en RL y su aplicación a un problema real?
 
 En los entornos del curso (Atari, LunarLander) el entorno es el mismo al entrenar y al evaluar, así que una curva de aprendizaje que sube es buena señal. En finanzas no: el mercado de 2016 o de 2017–2018 no se comporta como el de 2009–2015, y una recompensa de entrenamiento alta puede significar solo que el agente memorizó el pasado. La otra diferencia es el ruido: con un solo episodio de evaluación por año, la varianza entre semillas es tan grande como el efecto que se quiere medir, así que un solo número nunca basta para concluir.
-
----
-
-## Qué hice en el proyecto y dónde verlo
-
-Mi función fue **algoritmo, Optuna, semillas y reproducibilidad** (rúbrica 2, 4 y 5). Todo se calificó en **validación (2016)**; nunca usé el held-out para decidir.
-
-| Qué hice | Qué se comparó o se obtuvo | Dónde se ve |
-|---|---|---|
-| Cloné el repo desde cero en Windows siguiendo solo el README y `CONFIGURACION_KERNEL.md` | `uv sync` y prueba de humo a la primera (`TODO OK` en ~16 s); dos corridas idénticas → determinista en una misma máquina | `docs/informe/10_reproducibilidad.md` |
-| Búsqueda de hiperparámetros con Optuna (15 trials × 50.000 pasos, 8 min) | learning rate, γ, exploración y batch; solo el trial 3 (γ = 0,9) fue positivo | `docs/experimentos/optuna_log.txt`, tabla en `optuna_y_semillas.md` |
-| Exportación de MLflow a tabla y figura (`scripts/exportar_optuna.py`) | Curvas de aprendizaje de los 15 trials frente a su recompensa en validación; Spearman −0,01 | `docs/experimentos/optuna_curvas.png`, `optuna_trials.csv` |
-| Robustez por semillas (`scripts/semillas.py`, 4 semillas × 150.000 pasos) | YAML (+1,4 % ± 5,4; 2 de 4 ganan) frente a Optuna (−7,5 % ± 3,8; 0 de 4) y comprar y mantener (+4,2 %) | `docs/experimentos/semillas_*.csv` y sus logs, `optuna_y_semillas.md` |
-| Decisión sobre los hiperparámetros | Se mantiene el YAML: el candidato de Optuna es peor en 4 de 4 semillas | `docs/decisiones.md`, `docs/informe/06_algoritmo.md` |
-| Documentación del algoritmo | DQN, arquitectura 8 → 64 → 64 → 3, tabla de hiperparámetros, protocolo train / val / held-out | `docs/informe/06_algoritmo.md` |
-| Comparación entre máquinas | Misma semilla en 3 equipos: misma conducta, retorno ±3 puntos | `docs/informe/10_reproducibilidad.md` |
-
-**Para verlo de forma interactiva:** `uv run mlflow ui` → http://127.0.0.1:5000 → modo **Model training** → experimento `agente-inversor` → corrida `tune-dqn-Investor-log_dd-v0`.
-
-**Lo que me llevo:** en RL aplicado a datos reales la parte difícil no es entrenar el agente, sino no engañarse con los resultados. Separar train, validación y held-out, fijar las reglas antes de mirar los números y repetir con varias semillas fue lo que convirtió un "+9 %" llamativo en una conclusión honesta: el agente no le gana al mercado de forma confiable, pero sí aprende de manera consistente a asumir menos riesgo.
