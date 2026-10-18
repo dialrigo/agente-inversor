@@ -85,7 +85,3 @@ Máquina: PC de Marlon, Windows (x64), CPU. Clonado desde cero el 2026-10-17 sig
 | Sharpe anual | 1,02 | 0,76 | 0,98 |
 
 La **conducta** del agente se reproduce (31–32 cambios de posición, ~18–19 % del tiempo invertido, mismo patrón de refugio en efectivo), pero las cifras exactas no: el retorno varía hasta ~3 puntos y el drawdown ~2,3 puntos entre máquinas. Con la misma semilla, las diferencias mínimas de punto flotante entre equipos se acumulan a lo largo de 150.000 pasos de entrenamiento y terminan en redes algo distintas. Esa variación es menor que la que hay entre semillas en una misma máquina (desviación de 5,4 puntos de retorno, ver `docs/experimentos/optuna_y_semillas.md`), pero implica que las cifras de un solo entrenamiento deben leerse con un margen de algunos puntos. Las que valen para el informe son las de la corrida oficial.
-
-## Link del repositorio
-
-https://github.com/dialrigo/agente-inversor
