@@ -1,9 +1,5 @@
 # Algoritmo y protocolo de entrenamiento
 
-| Dueño | Verifica | Fuente | Rúbrica |
-|---|---|---|---|
-| Marlon Umbarila (`Marlon-Umbarila`) | Lorena Valero | Secc. 7 · `configs/` · MLflow | 2 y 4 |
-
 ## DQN: por qué (acciones discretas) y cómo funciona en una frase por componente
 
 Usamos **DQN** (*Deep Q-Network*, implementación de Stable-Baselines3) porque el espacio de acciones es discreto y pequeño: $A = \{0\,\%, 50\,\%, 100\,\%\}$ del capital invertido. DQN aprende una función $Q_\theta(s, a)$ que estima el retorno descontado de elegir la acción $a$ en el estado $s$ y luego seguir la política; la política final es simplemente $\pi(s) = \arg\max_a Q_\theta(s,a)$, sin necesidad de parametrizar una distribución sobre acciones como en PPO.
