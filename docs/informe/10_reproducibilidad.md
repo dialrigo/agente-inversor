@@ -1,9 +1,5 @@
 # Reproducibilidad
 
-| Dueño | Verifica | Fuente | Rúbrica |
-|---|---|---|---|
-| Marlon Umbarila (`Marlon-Umbarila`) | Lorena Valero | Secc. 12 · README · `CONFIGURACION_KERNEL.md` | **5** |
-
 ## Requisitos y comandos (uv sync, prueba de humo, Run All)
 
 Requisitos: Git, [uv](https://docs.astral.sh/uv/) y Python 3.11 (uv lo instala si falta; ver `.python-version`). No hace falta GPU. El dataset es GOOGL diario (2009-05-22 a 2018-08-29) incluido en el paquete `gym-anytrading` (`STOCKS_GOOGL`), así que no hay que descargar nada aparte.
